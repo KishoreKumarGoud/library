@@ -1,0 +1,22 @@
+<!-- department.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= department %> Books</title>
+</head>
+<body>
+    <h1><%= department %> Department</h1>
+    <h2>Year <%= year %> Books</h2>
+    <% if (books.length > 0) { %>
+        <ul>
+            <% books.forEach(book => { %>
+                <li><%= book.title %></li>
+            <% }) %>
+        </ul>
+    <% } else { %>
+        <p>No books found for this department and year.</p>
+    <% } %>
+</body>
+</html>

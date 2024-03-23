@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Homepage</title>
+    <!-- Add CSS styling -->
+    <style>
+        body {
+            text-align: center;
+        }
+
+        .filters {
+            display: inline-block;
+            text-align: left;
+        }
+
+        .filter-group {
+            margin-bottom: 10px;
+        }
+
+        button {
+            display: block;
+            margin: 10px auto;
+            background-color:#007bff;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Library Homepage!</h1>
+    <div class="filters">
+        <div class="filter-group">
+            <label for="year">Select Year:</label>
+            <select id="year">
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="department">Select Department:</label>
+            <select id="department">
+                <option value="CSE">Computer Science</option>
+                <option value="ECE">Electronics and Communication Engineering</option>
+                <option value="EEE">Electrical and Electronics Engineering</option>
+                <option value="IT">Information Technology</option>
+            </select>
+        </div>
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+
+    <div id="filteredBooks"></div>
+
+    <!-- JavaScript for applying filters and displaying books -->
+    <script>
+        function applyFilters() {
+            const selectedYear = document.getElementById('year').value;
+            const selectedDepartment = document.getElementById('department').value;
+
+            // Make a POST request to server to get filtered books
+            fetch('/filtered-books', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ year: selectedYear, department: selectedDepartment })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display filtered books
+                const filteredBooksElement = document.getElementById('filteredBooks');
+                filteredBooksElement.innerHTML = '';
+                data.forEach(book => {
+                    const bookElement = document.createElement('div');
+                    bookElement.textContent = book.title;
+                    filteredBooksElement.appendChild(bookElement);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
